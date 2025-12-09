@@ -139,7 +139,7 @@ do operation and display result as per user choice using switch statements.
     Pisces: February 19–March 20
 
 13) Write a program to findout day of week from given day, month, year 
-    input: day = 27, month = 11, year = 2025
+    input: day = 09, month = 12, year = 2025
     output : Thursday
     use reference https://www.wikihow.com/Calculate-the-Day-of-the-Week
 
