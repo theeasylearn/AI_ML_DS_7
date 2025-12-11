@@ -152,7 +152,6 @@ while loop
 5)   Tribonacci Series   0 1 1 2 4 7 13 24
 -------------------------
 
-5   write a program to findout only compound interest of given amount, rate, year 
 6   write a program to findout power of given base and exponent 
 7   write a program to findout whether given number is prime number or not 
 8   write a program to findout whether given number is perfect number or not 
