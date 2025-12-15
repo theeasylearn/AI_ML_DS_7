@@ -166,7 +166,7 @@ for loop
 write a program to findout minimum marks & subject name and maximum marks and subject name from given dictionary 
 marks = {"Math": 88, "English": 75, "Science": 92, "History": 80, "Geography": 78, "Computer": 95}
 
-# write a program to count words, vowel, consent,digit and symbols in given string 
+# write a program to count words, vowel, consonent,digit and symbols in given string 
 
 nested loop 
 ----------------------------
@@ -231,3 +231,4 @@ output
 5) create lambda function that return true if city passed as 1st argument exist in list passed argument as 2nd argument, if city does not exist return false 
     isCityExist('Bhavnagar',['Bombay','Baroda','rajkot']) # false
     isCityExist('rajkot',['Bombay','Baroda','rajkot']) # true 
+
