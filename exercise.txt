@@ -227,7 +227,9 @@ toLowerCase('Apple','bAnana','ManGO','KIWI','graps')
 output 
     apple banana mango kiwi graps
 
-2) create function that returns average of player score of all 11 players (arbitary arguments)
+2) create function that returns average of player score by all 11 players (arbitary arguments)
+
+2) create function that returns sum,average,min,max of player score by all 11 players (arbitary arguments & function that returns multiple value)
 
 3) create function getSeconds which has hours, minutes and seconds which return total seconds 
 
