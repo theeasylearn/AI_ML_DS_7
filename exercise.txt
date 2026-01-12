@@ -247,3 +247,22 @@ recursion
 # write a program to print given amount into words (upto hundred crore)
 # amount = 12345 
 # output = tweleve thousand three hundreed fourty five  
+
+
+Module 
+1) create module which has below method. name of the module converter module    
+        inch to Foot inch_to_foot
+        inch to Meter 
+        inch to KM
+        km to Mile 
+    create other file to import and call above methods and display result 
+
+2) create folder storage in c drive. create file conversion.py file in it 
+    create functions into it 
+        toKB  converts given bytes into KB
+        toMB converts given bytes into  MB 
+        toGB converts given bytes into  GB 
+    set enviroment variable PYTHON_PATH as explained in class 
+    create file conversion_demo.py file 
+    import conversion file 
+    call functions into it 
