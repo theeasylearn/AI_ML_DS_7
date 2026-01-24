@@ -6,4 +6,8 @@ try:
     difference = 60 - age 
     print(f"year remaining for service = {difference}")
 except ValueError as e:
-    print(f"invalid age error is {e}")
+    error_msg = str(e) 
+    if "invalid literal for int()" in error_msg.lower():
+        print("age is string, it must be numbers")
+    else:
+        print(f"invalid age, age must between 18 to 60")

@@ -266,3 +266,9 @@ Module
     create file conversion_demo.py file 
     import conversion file 
     call functions into it 
+
+exception handling 
+-----------------------------------------------------
+1) write a program to accept review about product/service from user. if review has any one or more bad words then generate user defined exception using class 
+
+2) 
