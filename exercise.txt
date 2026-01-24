@@ -271,4 +271,435 @@ exception handling
 -----------------------------------------------------
 1) write a program to accept review about product/service from user. if review has any one or more bad words then generate user defined exception using class 
 
-2) 
+2) Password Strength Checker
+    Ask the user to enter a password. Raise exceptions for these cases:
+
+    Length < 8 → raise ValueError("Password must be at least 8 characters")
+    No uppercase letter → raise ValueError("Must contain at least one uppercase letter")
+    No digit → raise ValueError("Must contain at least one digit")
+
+    Catch them separately and show specific feedback for each rule that was broken.
+    Keep asking until a valid password is entered.
+
+3) ## #accept user's age and calculate remaining year in job. if age is above 60 or less then 18, raise custom exception try:     age = int(input("Enter age (between 18 to 60)"))     if age<18 or age>60:         raise ValueError("age must be in range of 18 to 60")     difference = 60 - age     print(f"year remaining for service = {difference}") except ValueError as e:     print(f"invalid age error is {e}")  
+
+i want to display different message when user gives invalid type input & when user given invalid range. how to make difference in exception block in both type of error
+
+Here's how to clearly separate the two different error cases:
+
+    Invalid type (user enters text, letters, symbols etc. → ValueError from int())
+    Valid number but out of range (age < 18 or age > 60)
+
+You have two main clean ways to do this:
+Best & Most Recommended Solution (2024–2025 style)
+Python
+
+try:
+    age = int(input("Enter age (between 18 to 60): "))
+    
+    if age < 18:
+        raise ValueError("Age is too young. You must be at least 18 years old.")
+    
+    if age > 60:
+        raise ValueError("Age is too high. Retirement age is considered 60.")
+    
+    # If we reached here → age is valid
+    years_left = 60 - age
+    print(f"Years remaining for service = {years_left}")
+
+except ValueError as e:
+    # This catches BOTH:
+    # 1. int() conversion error
+    # 2. Our own raised ValueError with custom messages
+    
+    error_message = str(e)
+    
+    if "invalid literal for int()" in error_message.lower():
+        print("Error: Please enter a valid number (digits only).")
+    else:
+        # This is our own custom message for range error
+        print(f"Invalid age: {error_message}")
+
+except Exception as e:
+    print(f"Unexpected error: {e}")
+
+Alternative Solution – More Explicit (using two exception types)
+Python
+
+class AgeRangeError(Exception):
+    """Custom exception for age out of valid range"""
+    pass
+
+
+try:
+    age_input = input("Enter age (between 18 to 60): ")
+    
+    try:
+        age = int(age_input)
+    except ValueError:
+        raise ValueError("Please enter a valid number (digits only)")
+    
+    if age < 18 or age > 60:
+        raise AgeRangeError(f"Age must be between 18 and 60. You entered: {age}")
+    
+    years_remaining = 60 - age
+    print(f"Years remaining for service = {years_remaining}")
+
+except ValueError as ve:
+    print(f"Input error: {ve}")
+
+except AgeRangeError as re:
+    print(f"Range error: {re}")
+
+except Exception as e:
+    print(f"Unexpected error occurred: {e}")
+
+Quick Comparison – Which one to choose?
+Approach	Pros	Cons	When to use
+One try + message checking	Simpler code, fewer classes	A bit hacky (string check)	Small scripts, quick programs
+Custom exception class	Very clean separation, professional	Slightly more code	Serious projects, teaching, long-term code
+Two separate try blocks	Very clear logic	Nested try is less elegant	When you want maximum clarity
+
+Most people in 2025 prefer the first or second approach.
+Very Clean & Popular Style (my personal recommendation)
+Python
+
+try:
+    age = int(input("Enter your age (18-60): "))
+except ValueError:
+    print("Error: Please enter a valid number (only digits allowed).")
+    exit()   # or continue / ask again
+
+if age < 18:
+    print("Sorry, you must be at least 18 years old.")
+elif age > 60:
+    print("Retirement age is considered 60. No years remaining.")
+else:
+    print(f"Years remaining in service = {60 - age}")
+
+This last version avoids exceptions for range checking — many Python developers prefer this style because range checks are business logic, not exceptional errors.
+
+Which style do you like most? Want to add a loop to keep asking until correct input?
+13.5s
+
+tomorrow = dt.now() + 1
+add one day in today to get date of tomorrow as date
+
+Here's the cleanest and most common ways to get tomorrow's date in Python (as a date object):
+Most Recommended (2024–2025 style)
+Python
+
+from datetime import datetime, timedelta
+
+# Option 1 – cleanest and most readable
+tomorrow = (datetime.now() + timedelta(days=1)).date()
+
+# Option 2 – even shorter if you only need date from the beginning
+from datetime import date, timedelta
+
+tomorrow = date.today() + timedelta(days=1)
+
+Full small examples with printing
+Python
+
+from datetime import datetime, timedelta, date
+
+# Way 1
+tomorrow1 = (datetime.now() + timedelta(days=1)).date()
+print("Tomorrow (from datetime.now()):", tomorrow1)
+
+# Way 2 – usually preferred when you only care about dates
+tomorrow2 = date.today() + timedelta(days=1)
+print("Tomorrow (from date.today()):   ", tomorrow2)
+
+Example output (depending on when you run it):
+text
+
+Tomorrow (from datetime.now()):  2025-07-11
+Tomorrow (from date.today()):    2025-07-11
+
+Quick summary – which one to use?
+You want	Best line to use
+Only the date (year-month-day)	date.today() + timedelta(days=1)
+You already have datetime object	your_dt + timedelta(days=1)
+You want date without time	.date() at the end
+You want datetime of tomorrow 00:00	(datetime.now() + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+
+Most people in modern Python code just write:
+Python
+
+from datetime import date, timedelta
+
+tomorrow = date.today() + timedelta(days=1)
+
+That's the shortest, clearest, and most idiomatic way in 2025.
+
+Want to also show weekday name or formatted string (like "11 July 2025")? Let me know!
+4.6s
+
+python, check day in date is sunday or not
+
+Here's how to check if a given date is a Sunday in Python (most common & clean methods):
+1. Best & Most Common Way (using .weekday())
+Python
+
+from datetime import datetime, date
+
+# Method A: Using date.today() - check today
+today = date.today()
+if today.weekday() == 6:
+    print("Today is Sunday")
+else:
+    print("Today is not Sunday")
+
+
+# Method B: Check any specific date
+date_to_check = date(2025, 12, 25)          # Christmas 2025 example
+# or
+# date_to_check = datetime(2025, 7, 13).date()
+
+if date_to_check.weekday() == 6:
+    print(f"{date_to_check} is Sunday")
+else:
+    print(f"{date_to_check} is NOT Sunday")
+
+Quick reference: weekday() values
+Value	Day
+0	Monday
+1	Tuesday
+2	Wednesday
+3	Thursday
+4	Friday
+5	Saturday
+6	Sunday
+2. More readable names (using calendar or strftime)
+Python
+
+from datetime import date
+import calendar
+
+today = date.today()
+
+# Option 1: using calendar
+day_name = calendar.day_name[today.weekday()]
+print(f"Today is {day_name}")
+if day_name == "Sunday":
+    print("→ It's Sunday!")
+
+# Option 2: using strftime (very readable)
+day_name = today.strftime("%A")   # → "Sunday", "Monday", etc.
+if day_name == "Sunday":
+    print("Yes, it's Sunday")
+
+3. One-liner / function style (most reusable)
+Python
+
+from datetime import date
+
+def is_sunday(dt=None):
+    if dt is None:
+        dt = date.today()
+    return dt.weekday() == 6
+
+# Usage examples:
+print(is_sunday())                          # today
+print(is_sunday(date(2025, 7, 13)))         # True (example Sunday)
+print(is_sunday(date(2025, 7, 14)))         # False
+
+Summary – Recommended choices in 2025
+You want	Best line to use
+Fastest & cleanest	date.weekday() == 6
+Most readable for humans	date.strftime("%A") == "Sunday"
+With day name output	calendar.day_name[date.weekday()]
+Reusable function	def is_sunday(dt): return dt.weekday() == 6
+
+Which style do you prefer for your code?
+
+Want to also check for other days, or make a small program that tells what day it is + whether it's weekend?
+22.1s
+
+generate 10 exercise for exception handling mechanism
+51_exception_handling_3.py
+52_exception_handling.py
+55_exception_handling.py
+50_exception_handling_2.py
+49_exception_handling_1.py
+53_exception_handling.py
+54_exception_handling.py
+
+Here are 10 practical exercises on Python exception handling mechanisms. They gradually increase in difficulty and cover different real-world patterns you will meet in actual programs.
+Exercise 1 – Basic input validation (beginner)
+
+Ask the user to enter an integer between 1 and 100.
+
+    If the input is not an integer → show "Please enter a whole number"
+    If the number is outside 1–100 → show "Number must be between 1 and 100"
+    If correct → print "Thank you. You entered: X"
+    Use one try-except block. Do not use a loop yet.
+
+Exercise 2 – Division with two error types
+
+Write a program that reads two numbers from the user and prints their division.
+Handle separately:
+
+    non-numeric input
+    division by zero
+    Use two differentexcept clauses.
+    Add else and finally blocks (print “Calculation done” in finally).
+
+Exercise 3 – Keep asking until correct number (loop + exception)
+
+Modify exercise 1 so the program keeps asking until the user enters a valid integer between 1 and 100.
+Use while True + break when input is correct.
+Exercise 4 – Safe list sum & average (like file 51)
+
+Given this list:
+Python
+
+items = [12, "hello", 3.14, None, True, 0, [5], 8, False, "world", 25]
+
+Calculate sum and average of only the numeric values (int or float).
+
+    Skip / handle every non-numeric item gracefully
+    If no valid numbers found → print "No valid numbers to calculate average"
+
+Exercise 5 – Custom exception for age (improved version of 53/54)
+
+Create a custom exception called InvalidAgeError.
+Keep asking for age until:
+
+    age is an integer
+    18 ≤ age ≤ 65
+
+Print remaining working years assuming retirement at 65.
+Use different messages for:
+
+    not a number
+    number but too young
+    number but too old
+
+Exercise 6 – Date parser with business rules (like file 55 – simplified)
+
+Ask user for a date in format dd-mm-yyyy.
+Accept only dates that are:
+
+    valid date format
+    tomorrow or later
+    not a Sunday
+
+Keep asking until correct date is entered.
+Print the chosen date nicely formatted (e.g. "Monday 27 January 2026").
+Exercise 7 – File reading with multiple error types
+
+Try to open and read a file called config.txt.
+Handle at least these cases differently:
+
+    file does not exist → "Config file missing!"
+    permission denied → "No permission to read file"
+    file exists but contains non-utf8 characters → "File encoding problem"
+    any other error → "Unexpected problem: …"
+
+Use one try and multiple except clauses + else + finally.
+Exercise 8 – Safe dictionary access
+
+You have this dictionary:
+Python
+
+person = {"name": "Priya", "city": "Surat", "age": 29}
+keys_to_read = ["name", "salary", "city", "department", "age"]
+
+For each key in the list, try to print key: value.
+If the key does not exist → print key: [missing]
+Do not let the program crash.
+Exercise 9 – Nested try-except + custom exception
+
+Write a small calculator menu (loop):
+text
+
+1. Add
+2. Subtract
+3. Divide
+4. Exit
+
+For options 1–3:
+
+    read two floats
+    perform operation
+    if division → handle zero
+    if input not 1–4 → raise custom InvalidMenuChoiceError
+
+Use nested try-except blocks (outer for menu choice, inner for number parsing).
+Exercise 10 – Robust CSV-like line parser
+
+User enters lines in format: name,age,city (comma separated)
+Example: Rahul,32,Ahmedabad
+
+For each line (you can use a loop and ask multiple times):
+
+    split by comma
+    convert age to int
+    check that exactly 3 parts exist
+    age between 0–120
+
+Raise custom exception InvalidRecordFormat when format is wrong.
+Collect all valid records in a list and print them at the end.
+
+Bonus: stop only when user enters empty line or "quit".
+
+Which of these exercises would you like to see with a model solution first?
+Or would you prefer hints / partial code for a specific number?
+4.9s
+Executed code
+
+need different example
+
+Here are 10 fresh and different exercises on Python exception handling (different from the previous set and from your existing code files).
+Exercise 1 – Safe Integer Input with Range
+
+Write a function get_positive_integer() that:
+
+    Keeps asking the user for a number
+    Rejects negative numbers or zero with message "Please enter a positive number"
+    Rejects non-integer input with "Must be a whole number"
+    Returns the number only when it's ≥ 1
+
+Use while True, try/except, and no custom exception.
+Exercise 2 – Password Strength Checker
+
+Ask the user to enter a password. Raise exceptions for these cases:
+
+    Length < 8 → raise ValueError("Password must be at least 8 characters")
+    No uppercase letter → raise ValueError("Must contain at least one uppercase letter")
+    No digit → raise ValueError("Must contain at least one digit")
+
+Catch them separately and show specific feedback for each rule that was broken.
+Keep asking until a valid password is entered.
+
+3) – Custom Exception: NegativeBalanceError
+Create a class NegativeBalanceError(Exception).
+Simulate a simple bank account:
+Python
+balance = 1500
+Loop: ask user for amount to withdraw.
+    If amount is not a number → "Invalid amount"
+    If amount ≤ 0 → "Amount must be positive"
+    If amount > balance → raise NegativeBalanceError("Insufficient funds!")
+Show new balance only on successful withdrawal.
+
+4) File Name Validator
+Ask user for a filename to save data.
+Reject (with clear message) if:
+Contains any of these characters: / \ : * ? " < > |
+Is empty
+Ends with .exe, .bat, .scr (dangerous extensions)
+Use one custom exception InvalidFilenameError that carries the reason.
+
+
+5) Temperature Converter with Limits
+Ask user for Celsius temperature.
+Convert to Fahrenheit: F = C * 9/5 + 32
+Business rules:
+Accept only numbers
+Reasonable human range: –50 °C to +60 °C
+If outside this range → raise custom ExtremeTemperatureError with message including the value
+Show both °C and °F if valid.
