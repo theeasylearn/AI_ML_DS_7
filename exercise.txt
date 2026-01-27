@@ -703,3 +703,11 @@ Accept only numbers
 Reasonable human range: –50 °C to +60 °C
 If outside this range → raise custom ExtremeTemperatureError with message including the value
 Show both °C and °F if valid.
+
+file management
+-----------------------------------------
+1) write a program to accept recipe name from user. findout whether that recipe exist in menu.txt file or not. if found display recipe found other wise display all other recipe name. 
+
+2) write a program to red content from fruits.txt file (it has name of fruits not in specific order) and sort it and display it in ascending order. if duplicate fruit name found ignore it. 
+
+3) 
